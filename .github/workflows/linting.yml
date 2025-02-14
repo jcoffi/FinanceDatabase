@@ -33,7 +33,8 @@ jobs:
   auto-format-failed-code-lint:
     name: Auto Format Code
     runs-on: ubuntu-latest
-    if: failure()
+    needs: code-linting
+    if: ${{ failure() }}
     steps:
       - name: Checkout Code
         uses: actions/checkout@v3
