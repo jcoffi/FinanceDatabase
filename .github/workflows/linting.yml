@@ -38,3 +38,28 @@ jobs:
         name: Check out the code
       - name: Lint Code Base
         uses: docker://avtodev/markdown-lint:v1
+
+  auto-format:
+    name: Auto Format Code
+    runs-on: ubuntu-latest
+    if: failure() && github.event_name == 'push'
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Setup Python 3.10
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.10"
+          architecture: x64
+
+      - run: |
+          pip install black
+      - run: black .
+      - name: Commit changes
+        run: |
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+          git add .
+          git commit -m 'Automatically format code using black'
+          git push
