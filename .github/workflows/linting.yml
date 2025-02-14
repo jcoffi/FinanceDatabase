@@ -42,7 +42,7 @@ jobs:
   auto-format:
     name: Auto Format Code
     runs-on: ubuntu-latest
-    if: failure() && github.event_name == 'push'
+    if: failure()
     steps:
       - name: Checkout Code
         uses: actions/checkout@v3
