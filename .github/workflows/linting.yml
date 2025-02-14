@@ -29,17 +29,8 @@ jobs:
       - run: codespell
       - run: ruff financedatabase
       - run: pylint financedatabase
-
-  markdown-link-check:
-    name: Markdown Linting
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-        name: Check out the code
-      - name: Lint Code Base
-        uses: docker://avtodev/markdown-lint:v1
-
-  auto-format:
+      
+  auto-format-failed-code-lint:
     name: Auto Format Code
     runs-on: ubuntu-latest
     if: failure()
@@ -63,3 +54,12 @@ jobs:
           git add .
           git commit -m 'Automatically format code using black'
           git push
+          
+  markdown-link-check:
+    name: Markdown Linting
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        name: Check out the code
+      - name: Lint Code Base
+        uses: docker://avtodev/markdown-lint:v1
